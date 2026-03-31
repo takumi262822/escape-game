@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com');
+
+:root {
+    --gold: #c5a059;
+    --dark-bg: #050505;
+    --panel-bg: #1a1a1a;
+    --transition-slow: 0.8s ease;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body { background: var(--dark-bg); margin: 0; display: flex; justify-content: center; align-items: center; height: 100dvh; color: var(--gold); font-family: 'Noto Serif JP', serif; overflow: hidden; }
+
+#stage { width: 100%; max-width: 600px; height: 100%; max-height: 900px; background: var(--panel-bg); border: 1px solid var(--gold); position: relative; display: flex; flex-direction: column; }
+
+/* メインビュー */
+#viewport { flex: 1; position: relative; background: radial-gradient(circle, #222, #000); display: flex; justify-content: center; align-items: center; overflow: hidden; }
+#room-label { position: absolute; top: 20px; font-family: 'Cinzel', serif; font-size: 14px; letter-spacing: 2px; opacity: 0.6; }
+#narrator { position: absolute; bottom: 0; width: 100%; padding: 25px 15px; background: linear-gradient(transparent, #000 85%); text-align: center; font-size: 16px; line-height: 1.4; z-index: 10; }
+
+/* 操作パネル */
+#control-panel { background: #000; padding: 15px; border-top: 1px solid #333; display: flex; flex-direction: column; gap: 15px; }
+#inventory-grid { display: flex; justify-content: center; gap: 8px; }
+.item-slot { width: clamp(55px, 15vw, 65px); height: clamp(55px, 15vw, 65px); border: 1px solid #444; display: flex; justify-content: center; align-items: center; font-size: 28px; background: #111; cursor: pointer; }
+.item-slot.selected { border-color: var(--gold); box-shadow: 0 0 10px var(--gold); }
+.nav-group { display: flex; gap: 10px; }
+.nav-arrow { flex: 1; height: 55px; background: transparent; border: 1px solid var(--gold); color: var(--gold); font-family: 'Cinzel', serif; font-size: 16px; cursor: pointer; }
+
+/* クリア演出 */
+#clear-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 1000; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: opacity 2s ease-in-out; color: #000; }
+#clear-overlay.is-active { opacity: 1; visibility: visible; }
+.clear-text { font-family: 'Cinzel', serif; font-size: 32px; letter-spacing: 5px; font-weight: bold; }
+#clear-message { margin-top: 10px; font-size: 14px; font-weight: bold; }
+
+/* タイトル・共通 */
+#title-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #0a0a0a; z-index: 500; display: flex; justify-content: center; align-items: center; transition: var(--transition-slow); }
+#title-screen.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.title-content { width: 85%; text-align: center; border: 1px solid var(--gold); padding: 40px 20px; background: rgba(20,20,20,0.9); }
+.luxe-title { font-family: 'Cinzel', serif; font-size: clamp(24px, 8vw, 36px); margin: 0 0 10px; }
+.difficulty-menu { display: flex; flex-direction: column; gap: 12px; margin: 30px 0; }
+.diff-btn { padding: 15px; background: transparent; border: 1px solid var(--gold); color: var(--gold); font-family: 'Cinzel', serif; font-size: 16px; cursor: pointer; }
+.prop { transform: scale(1.3); cursor: pointer; }
+.mini-btn { position: absolute; top: 15px; right: 15px; font-size: 11px; padding: 6px 12px; z-index: 100; border: 1px solid var(--gold); color: var(--gold); background: rgba(0,0,0,0.4); cursor: pointer; }
+.overlay { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 600; }
+.overlay.is-active { display: flex; }
+.dial-box { width: 80%; background: var(--panel-bg); padding: 30px; border: 1px solid var(--gold); text-align: center; }
+#code-input { background: #000; border: 1px solid var(--gold); color: var(--gold); font-size: 32px; width: 140px; text-align: center; margin: 20px 0; outline: none; }
+.input-error { border-color: #f44 !important; animation: shake 0.3s; }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+/* style.css の末尾にこれを上書き・追加 */
+.hidden {
+    display: none !important; /* 強制非表示 */
+    opacity: 0 !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+}
+
+#title-screen {
+    z-index: 9999; /* 確実に手前に */
+}
+
+#start-btn {
+    cursor: pointer;
+    z-index: 10000;
+}

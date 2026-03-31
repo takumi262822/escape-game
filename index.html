@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>THE LUXE ROOM: TRILOGY</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="stage">
+        <!-- タイトル画面 -->
+        <div id="title-screen">
+            <div class="title-content">
+                <h1 class="luxe-title">THE LUXE ROOM</h1>
+                <p class="luxe-subtitle">~ 三つの記憶 ~</p>
+                <div class="difficulty-menu">
+                    <button class="diff-btn" data-level="EASY">BEGINNER (初級)</button>
+                    <button class="diff-btn" data-level="NORMAL">ADVANCED (中級)</button>
+                    <button class="diff-btn" data-level="HARD">ELITE (上級)</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- メインビュー -->
+        <div id="viewport">
+            <div id="room-label">NORTH VIEW</div>
+            <button id="btn-menu" class="mini-btn">MENU</button>
+            <div id="object-container"></div>
+            <div id="narrator">運命を選択せよ。</div>
+            
+            <!-- ⑤ クリア演出用オーバーレイ -->
+            <div id="clear-overlay">
+                <div class="clear-content">
+                    <div class="clear-text">ROOM ESCAPED</div>
+                    <div id="clear-message"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 操作パネル -->
+        <div id="control-panel">
+            <div id="inventory-grid">
+                <div class="item-slot" id="slot-1"></div>
+                <div class="item-slot" id="slot-2"></div>
+                <div class="item-slot" id="slot-3"></div>
+                <div class="item-slot" id="slot-4"></div>
+            </div>
+            <div class="nav-group">
+                <button id="btn-left" class="nav-arrow">LEFT</button>
+                <button id="btn-right" class="nav-arrow">RIGHT</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 暗号入力モーダル -->
+    <div id="dial-overlay" class="overlay">
+        <div class="dial-box">
+            <h4>DIGITAL LOCK</h4>
+            <input type="text" id="code-input" maxlength="4" placeholder="****" autocomplete="off">
+            <div class="modal-btns">
+                <button id="code-unlock">UNLOCK</button>
+                <button id="code-close">CLOSE</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./src/main.js"></script>
+</body>
+</html>
