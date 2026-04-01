@@ -13,6 +13,12 @@
  * @author Takumi Harada
  * @date 2026-04-01
  */
+/**
+ * 定数概要:
+ * - VIEWS は部屋内で向いている方角順を管理する表示定数
+ * - ERROR_MS と RELOAD_MS は演出待機時間の制御値
+ * - CLEAR_MESSAGES と ITEM_HINTS はクリア文言とアイテム説明を管理する
+ */
 export class GameConstants {
     static VIEWS = ['NORTH', 'EAST', 'SOUTH', 'WEST'];
     static ERROR_MS = 500;

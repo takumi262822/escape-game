@@ -13,6 +13,12 @@
  * @author Takumi Harada
  * @date 2026-04-01
  */
+/**
+ * 処理概要:
+ * - 生成処理: 視点ごとの調査対象やインベントリ表示に使うDOM部品を組み立てる
+ * - 更新処理: コンテナ差し替えや所持品スロット取得などUI操作を共通化する
+ * - 出力処理: EscapeGameController から呼び出せる再利用部品を返却する
+ */
 export class UIComponents {
     static createPropElement(viewData, state, onAction) {
         const prop = document.createElement('div');

@@ -15,6 +15,12 @@ import { GameConstants } from '../constants/game-constants.js';
  * @author Takumi Harada
  * @date 2026-04-01
  */
+/**
+ * 処理概要:
+ * - 入力値: 現在の部屋名と視点インデックス
+ * - 更新処理: GameConstants.VIEWS を使って部屋ラベルを整形する
+ * - 出力処理: 画面上部の現在位置表示を最新状態へ更新する
+ */
 export class Header {
     constructor(labelElement) {
         this.labelElement = labelElement;

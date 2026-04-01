@@ -17,6 +17,12 @@ import { LEVEL_ELITE } from '../levels/elite-level.js';
  * @author Takumi Harada
  * @date 2026-04-01
  */
+/**
+ * 定数概要:
+ * - DIFFICULTY は難易度選択と内部判定で使うコード値
+ * - LEVEL_MAP は難易度コードと各レベル定義の対応表
+ * - getLevelByDifficulty は選択コードから対象レベルデータを返す
+ */
 export class CodeDefinitions {
     static DIFFICULTY = Object.freeze({
         EASY: 'EASY',

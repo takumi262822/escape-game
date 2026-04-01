@@ -21,6 +21,12 @@ import { StyleManager } from '../styles/style-manager.js';
  * @author Takumi Harada
  * @date 2026-04-01
  */
+/**
+ * 処理概要:
+ * - 初期化処理: 難易度選択、移動ボタン、入力ダイアログ、所持品UIのイベントを登録する
+ * - 進行処理: 部屋移動、視点回転、謎解き判定、アイテム取得、メッセージ更新を管理する
+ * - 出力処理: 現在の部屋表示、ナレーション、クリア演出をDOMへ反映する
+ */
 export class EscapeGameController {
     constructor() {
         this.resetState();

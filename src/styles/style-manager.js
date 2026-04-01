@@ -13,6 +13,12 @@
  * @author Takumi Harada
  * @date 2026-04-01
  */
+/**
+ * 処理概要:
+ * - 共通処理: DOM 要素への class 追加、削除、切替を静的メソッドで提供する
+ * - 画面制御: タイトル非表示やモーダル表示など見た目の状態遷移を補助する
+ * - 出力処理: Controller 側から簡潔にスタイル更新を呼び出せるようにする
+ */
 export class StyleManager {
     static addClass(element, className) {
         element?.classList.add(className);

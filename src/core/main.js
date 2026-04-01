@@ -15,6 +15,12 @@ import { EscapeGameController } from './game-controller.js';
  * @author Takumi Harada
  * @date 2026-04-01
  */
+/**
+ * 処理概要:
+ * - 初期化処理: EscapeGameController を生成してゲーム開始準備を行う
+ * - 進行処理: エントリーポイントとして画面ロード時の起動順序を単純化する
+ * - 出力処理: Controller 初期化後のゲーム画面へ制御を委譲する
+ */
 export class Main {
     constructor() {
         this.controller = null;
