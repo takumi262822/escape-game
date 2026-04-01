@@ -9,7 +9,8 @@ import { Validator } from '../src/utils/validator.js';
 import { XSSProtection } from '../src/utils/xss.js';
 import { CodeDefinitions } from '../src/constants/code-definitions.js';
 
-test('Validator validates level shape', () => {
+// ステージ定義が必要なプロパティを満たしているかを確認する。
+test('レベル定義が進行に必要な必須プロパティを満たすこと', () => {
   const validLevel = { id: 'EASY', code: '742' };
   const invalidLevel = { id: 'EASY' };
 
@@ -17,7 +18,8 @@ test('Validator validates level shape', () => {
   assert.equal(Validator.isValidLevel(invalidLevel), false);
 });
 
-test('XSSProtection sanitizes html special chars', () => {
+// 危険なHTML文字列がエスケープされて安全な表示用文字列になるかを確認する。
+test('危険な HTML 文字列が安全な表示用文字列へ変換されること', () => {
   const raw = '<script>alert("x")</script>';
   const safe = XSSProtection.sanitize(raw);
 
@@ -25,7 +27,8 @@ test('XSSProtection sanitizes html special chars', () => {
   assert.equal(safe.includes('&lt;script&gt;'), true);
 });
 
-test('CodeDefinitions returns level by difficulty key', () => {
+// 難易度キーから対応するレベル定義を取得でき、不明キーではnullを返すかを確認する。
+test('難易度キーから対応するレベル定義を取得できること', () => {
   assert.equal(CodeDefinitions.getLevelByDifficulty('EASY')?.id, 'EASY');
   assert.equal(CodeDefinitions.getLevelByDifficulty('NORMAL')?.id, 'NORMAL');
   assert.equal(CodeDefinitions.getLevelByDifficulty('UNKNOWN'), null);
