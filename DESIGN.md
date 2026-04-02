@@ -258,4 +258,39 @@
 ## 5. 非機能要件
 - 実行環境: Chrome / Edge 最新版、ローカルサーバー経由
 - 品質ゲート: npm run lint、npm test、GitHub Actions CI
+
+## 6. 入力検証 / セキュリティ実装詳細
+
+### 6.1 Validator クラス
+
+#### 6.1.1 isValidLevel
+- 実装:
+  ```
+  level && typeof level === 'object'
+  && typeof level.id === 'string'
+  && typeof level.code === 'string'
+  ```
+- 用途: start() でレベル定義オブジェクトが必要キーを持つか確認する
+
+#### 6.1.2 isValidViewIndex
+- 実装: `Number.isInteger(index) && index >= 0 && index < viewsLength`
+- 用途: 視点切替時に配列外参照を防ぐ
+
+#### 6.1.3 isValidCodeInput
+- 実装: `typeof value === 'string' && value.trim().length > 0`
+- 用途: unlock() で空入力のコードを拒否する
+
+### 6.2 XSSProtection クラス
+
+#### 6.2.1 sanitize
+- 変換テーブル:
+  - `&` → `&amp;`
+  - `<` → `&lt;`
+  - `>` → `&gt;`
+  - `"` → `&quot;`
+  - `'` → `&#x27;`
+- 実装パターン: `/[&<>"']/g` を map 引きで置換
+- 用途: say() メソッドからナレーション文字列を表示する前に必ず経由する
+- 分岐:
+  - a. value が string でない場合: 変換せずそのまま返す
 - 制約: プレイ状態はメモリのみで保持し、永続化は行わない
