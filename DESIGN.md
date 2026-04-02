@@ -53,11 +53,91 @@
 | flags | object | 謎解き進行フラグ |
 
 ### 3.2 主な定数
-- GameConstants.VIEWS: NORTH, EAST, SOUTH, WEST
-- GameConstants.ERROR_MS: 入力エラー演出時間
-- GameConstants.RELOAD_MS: クリア演出後の復帰時間
-- GameConstants.CLEAR_MESSAGES: 難易度別クリア文言
-- GameConstants.ITEM_HINTS: アイテム調査文言
+
+#### GameConstants (src/constants/game-constants.js)
+| 定数 | 値 | 用途 |
+|---|---|---|
+| VIEWS | `['NORTH','EAST','SOUTH','WEST']` | 視点配列（循環インデックス基準） |
+| ERROR_MS | `500` | 入力エラー演出のハイライト継続時間 (ms) |
+| RELOAD_MS | `5000` | クリア演出後タイトル復帰までの待機時間 (ms) |
+
+- CLEAR_MESSAGES:
+  - `EASY:   '【初級踏破】 記憶の断片を回収した。'`
+  - `NORMAL: '【中級完遂】 深淵の迷宮を突破した。'`
+  - `HARD:   '【上級超越】 全ての因果を解き明かした。'`
+
+- ITEM_HINTS (アイテム説明文):
+  - `wrench:   '古いレンチだ。'`
+  - `glasses:  'レンズに「2856」と見える。'`
+  - `oil:      '機械油だ。'`
+  - `tape:     '絶縁テープ。'`
+  - `bar:      '重い鉄の棒。'`
+  - `desk_key: '銀色の小さな鍵。'`
+
+#### CodeDefinitions (src/constants/code-definitions.js)
+- DIFFICULTY: `{ EASY: 'EASY', NORMAL: 'NORMAL', HARD: 'HARD' }`
+- LEVEL_MAP: `{ EASY: LEVEL_BEGINNER, NORMAL: LEVEL_ADVANCED, HARD: LEVEL_ELITE }`
+
+### 3.3 レベル定義
+
+#### LEVEL_BEGINNER (src/levels/beginner-level.js)
+| 項目 | 値 |
+|---|---|
+| id | `'EASY'` |
+| code（脱出コード） | `'742'` |
+| msg（導入文） | `'初級モード開始。探索を始めてください。'` |
+| 構造 | 単一部屋、4 視点 (NORTH〜WEST) |
+
+- 解法フロー:
+  1. `driver (🪛)` を WEST の箱から取得する。
+  2. SOUTH の額縁に driver を使うと `数字：742` が出現する。
+  3. EAST の錠前に actions → toggleModal(true) でコード入力 `742` を解除する。
+  4. 錠前が open になり EAST で `key (🗝️)` を取得する。
+  5. NORTH の出口に key を装備した状態で使うと `clear()` が発動する。
+
+#### LEVEL_ADVANCED (src/levels/advanced-level.js)
+| 項目 | 値 |
+|---|---|
+| id | `'NORMAL'` |
+| code（脱出コード） | `'931'` |
+| msg（導入文） | `'中級：静寂の二連室。仕掛けを連鎖させよ。'` |
+| startRoom | `'STUDY'` |
+| 部屋 | STUDY（書斎）/ HALLWAY（廊下）/ STORAGE（物置） |
+
+- 解法フロー:
+  1. HALLWAY ゴミ箱から `oil (🏺)` を取得する。
+  2. STORAGE 段ボールから `tape (巻)` と `bar (🔨)` を取得する。
+  3. STORAGE 床板に bar を使い `fuse (🔋)` を取得する。
+  4. HALLWAY 配線に tape + fuse で `powerOn = true`（通電）。
+  5. STUDY 机に oil で `deskOpen = true` → `脱出コード：931` を確認。
+  6. STORAGE 金庫が powerOn のときコード入力 `931` で `goalOpen = true`。
+  7. STUDY 出口でクリア。
+
+#### LEVEL_ELITE (src/levels/elite-level.js)
+| 項目 | 値 |
+|---|---|
+| id | `'HARD'` |
+| code（脱出コード） | `'5856'` |
+| stone（石碑の数値） | `'3000'` |
+| msg（導入文） | `'究極試練：五界の連鎖。全ての因果を解き明かした。'` |
+| startRoom | `'HALL'` |
+| 部屋 | HALL / GARDEN / LIBRARY / WORKSHOP / UNDERGROUND / SECRET |
+
+- 解法フロー（コード生成: stone＋PC表示）:
+  1. LIBRARY 棚から `old_key (🔑)` を取得する。
+  2. GARDEN 物置に old_key を使い `oil (🛢️)` を取得する。
+  3. WORKSHOP 機械に oil で `glasses (👓)` を取得し `machineFixed = true`。
+  4. WORKSHOP に移動し `bar (🔨)` を取得する。
+  5. UNDERGROUND に移動し bar で配電盤を開け `powerOn = true`。
+  6. LIBRARY 本棚に oil で `leverFixed = true`、次に lever を引き地下へ通路開通 `pathLibrary = true`。
+  7. LIBRARY 日記に glasses で `hintRead = true`（「中庭の数値＋PCコード」ヒント）。
+  8. UNDERGROUND 設計図を読み `bluePrintRead = true`。
+  9. WORKSHOP PC が powerOn のとき「管理コード：5856」を確認する。
+  10. HALL 壁画に bar で条件（bluePrintRead + hintRead + powerOn）全満足 → `pathHall = true`。
+  11. HALL から SECRET（隠し部屋）へ移動する。
+  12. SECRET 金庫にコード入力 → stone(`3000`) + code(`5856`) → `goalOpen = true`。
+  13. HALL 出口でクリア。
+  - 補足: SECRET の小窓では「石碑の 3000 が見える」ヒントが表示される。
 
 ## 4. 詳細設計
 
@@ -294,3 +374,33 @@
 - 分岐:
   - a. value が string でない場合: 変換せずそのまま返す
 - 制約: プレイ状態はメモリのみで保持し、永続化は行わない
+
+## 7. DOM セレクター一覧
+
+### 7.1 EscapeGameController が取得する DOM
+| id | 役割 |
+|---|---|
+| `title-screen` | タイトル画面コンテナ（is-hidden で非表示） |
+| `object-container` | 調査対象を差し替えるメインビュー |
+| `room-label` | ヘッダーへ部屋名・方角を表示する |
+| `narrator` | ナレーションテキストを表示する |
+| `dial-overlay` | コード入力モーダル（is-active で表示） |
+| `code-input` | コード入力 input 要素 |
+| `clear-overlay` | クリア演出オーバーレイ |
+| `clear-message` | クリア文言を差し込む要素 |
+| `btn-left` | 視点を左（-1）に回転するボタン |
+| `btn-right` | 視点を右（+1）に回転するボタン |
+| `btn-menu` | メニューへ戻るボタン |
+| `code-unlock` | コード確認ボタン |
+| `code-close` | モーダルを閉じるボタン |
+
+### 7.2 クラスセレクター
+| class | 役割 |
+|---|---|
+| `.diff-btn` | 難易度選択ボタン（`data-level` に `EASY / NORMAL / HARD` を持つ） |
+| `.item-slot` | 所持品スロット（`data-key` にアイテムキーを保持する） |
+| `.prop` | 各視点の調査対象 DOM に付与するクラス |
+| `.is-hidden` | タイトル画面や演出要素の非表示制御 |
+| `.is-active` | コード入力モーダルの表示制御 |
+| `.selected` | 選択中の所持品スロットを強調する |
+| `.input-error` | コード入力エラー時のハイライト演出 |
