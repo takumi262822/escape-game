@@ -63,3 +63,10 @@ body { background: var(--dark-bg); margin: 0; display: flex; justify-content: ce
     cursor: pointer;
     z-index: 10000;
 }
+
+/* --- フッター --- */
+.game-footer {
+    position: fixed; bottom: 8px; width: 100%; text-align: center;
+    font-size: 0.55em; color: rgba(197, 160, 89, 0.3); letter-spacing: 4px;
+    pointer-events: none; font-family: 'Cinzel', serif;
+}
