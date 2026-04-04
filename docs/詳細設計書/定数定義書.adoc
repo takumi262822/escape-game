@@ -1,125 +1,42 @@
-= 定数定義書
-:project: 脱出ゲーム
-:author: Takumi Harada
-:revdate: 2026-04-05
-:doctype: article
-:toc:
+= 脱出ゲーム（THE LUXE ROOM）: 定数一覧
+:lang: ja
+:doctype: book
+:toc: left
+:toclevels: 5
 :toc-title: 目次
 :sectnums:
+:sectnumlevels: 5
+:sectlinks:
+:imagesdir: ./images
+:icons: font
+:source-highlighter: coderay
+:example-caption: 例
+:table-caption: 表
+:figure-caption: 図
 
-== 概要
-
-本書はプロジェクト「{project}」で利用する定数値を列挙したものです。
-ソースファイル `src/constants/game-constants.js` から逆引きで抽出しています。
-
----
-
-== 方向定義（VIEWS）
-
-[cols="2,1,2,4", options="header"]
+[#変更履歴, title="変更履歴", cols="1,2,3,3,3,3,3", options="header", align="center"]
 |===
-|定数名
-|型
-|値
-|内容
+^.^|No. ^.^|版数 ^.^|変更者 <.^|作成日/変更日 <.^|仕変番号/障害番号 <.^|変更箇所 <.^|変更内容
 
-|VIEWS
-|string[]
-|['NORTH', 'EAST', 'SOUTH', 'WEST']
-|部屋内の視点回転順を管理する。move() は VIEWS インデックスを ±1 してループする
-
+^.^|{counter:変更履歴} |1.00 |Takumi Harada |2026-04-04 ^.^|- ^.^|- |新規作成
 |===
 
----
+== 定数一覧
 
-== タイミング制御（ミリ秒）
-
-[cols="2,1,2,4", options="header"]
+[#定数一覧, title="定数一覧", cols="1,5,3,4,5", options="header", align="center"]
 |===
-|定数名
-|型
-|値
-|内容
+^.^|No. ^.^|定数名 ^.^|型 ^.^|設定値 ^.^|備考
 
-|ERROR_MS
-|number
-|500
-|エラー演出（入力不正時のフラッシュ）の表示時間 (ms)
-
-|RELOAD_MS
-|number
-|5000
-|クリア演出後にタイトルへ自動遷移するまでの待機時間 (ms)
-
-|===
-
----
-
-== クリアメッセージ（CLEAR_MESSAGES）
-
-[cols="2,1,3,4", options="header"]
-|===
-|定数名
-|型
-|値
-|内容
-
-|CLEAR_MESSAGES.EASY
-|string
-|【初級踏破】 記憶の断片を回収した。
-|初級クリア時に clear-message 要素へ設定するテキスト
-
-|CLEAR_MESSAGES.NORMAL
-|string
-|【中級完遂】 深淵の迷宮を突破した。
-|中級クリア時に clear-message 要素へ設定するテキスト
-
-|CLEAR_MESSAGES.HARD
-|string
-|【上級超越】 全ての因果を解き明かした。
-|上級クリア時に clear-message 要素へ設定するテキスト
-
-|===
-
----
-
-== アイテムヒント（ITEM_HINTS）
-
-[cols="2,1,3,4", options="header"]
-|===
-|定数名
-|型
-|値
-|内容
-
-|ITEM_HINTS.wrench
-|string
-|古いレンチだ。
-|アイテム選択時にナレーター欄に表示するテキスト
-
-|ITEM_HINTS.glasses
-|string
-|レンズに「2856」と見える。
-|眼鏡選択時のヒント（ダイヤル錠コードが含まれる）
-
-|ITEM_HINTS.oil
-|string
-|機械油だ。
-|油アイテム選択時のテキスト
-
-|ITEM_HINTS.tape
-|string
-|絶縁テープ。
-|テープ選択時のテキスト
-
-|ITEM_HINTS.bar
-|string
-|重い鉄の棒。
-|鉄の棒選択時のテキスト
-
-|ITEM_HINTS.desk_key
-|string
-|銀色の小さな鍵。
-|机の鍵選択時のテキスト
-
+^.^|{counter:定数} <.^|GAME_CONSTANTS.VIEWS <.^|string[] <.^|['NORTH', 'EAST', 'SOUTH', 'WEST'] <.^|部屋内の視点回転順。move() は VIEWS インデックスを ±1 してループする
+^.^|{counter:定数} <.^|GAME_CONSTANTS.ERROR_MS <.^|number <.^|500 <.^|エラー演出（入力不正時のフラッシュ）表示時間 (ms)
+^.^|{counter:定数} <.^|GAME_CONSTANTS.RELOAD_MS <.^|number <.^|5000 <.^|クリア演出後にタイトルへ自動遷移するまでの待機時間 (ms)
+^.^|{counter:定数} <.^|CLEAR_MESSAGES.EASY <.^|string <.^|【初級踏破】記憶の断片を回収した。 <.^|初級クリア時に clear-message 要素へ設定するテキスト
+^.^|{counter:定数} <.^|CLEAR_MESSAGES.NORMAL <.^|string <.^|【中級完遂】深淵の迷宮を突破した。 <.^|中級クリア時に clear-message 要素へ設定するテキスト
+^.^|{counter:定数} <.^|CLEAR_MESSAGES.HARD <.^|string <.^|【上級超越】全ての因果を解き明かした。 <.^|上級クリア時に clear-message 要素へ設定するテキスト
+^.^|{counter:定数} <.^|ITEM_HINTS.wrench <.^|string <.^|古いレンチだ。 <.^|アイテム選択時のナレーター欄表示テキスト
+^.^|{counter:定数} <.^|ITEM_HINTS.glasses <.^|string <.^|レンズに「2856」と見える。 <.^|眼鏡選択時のヒント（ダイヤル錠コードが含まれる）
+^.^|{counter:定数} <.^|ITEM_HINTS.oil <.^|string <.^|機械油だ。 <.^|油アイテム選択時のテキスト
+^.^|{counter:定数} <.^|ITEM_HINTS.tape <.^|string <.^|絶縁テープ。 <.^|テープ選択時のテキスト
+^.^|{counter:定数} <.^|ITEM_HINTS.bar <.^|string <.^|重い鉄の棒。 <.^|鉄の棒選択時のテキスト
+^.^|{counter:定数} <.^|ITEM_HINTS.desk_key <.^|string <.^|銀色の小さな鍵。 <.^|机の鍵選択時のテキスト
 |===
