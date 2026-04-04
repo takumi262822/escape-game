@@ -1,0 +1,64 @@
+openapi: 3.0.3
+info:
+  title: 脱出ゲーム（THE LUXE ROOM）データ仕様
+  description: |-
+    THE LUXE ROOM はブラウザ上で動作する脱出ゲームです。
+    外部 REST API は持たず、localStorage への永続化も行いません。
+    ゲームデータはセッション中のメモリで管理され、ページリロードでリセットされます。
+  version: 1.0.0
+  contact:
+    name: Takumi Harada
+
+servers: []
+
+paths: {}
+
+components:
+  schemas:
+
+    LevelConfig:
+      type: object
+      description: ゲームレベルの設定データ構造
+      required: [id, code, title]
+      properties:
+        id:
+          type: string
+          description: レベル識別子
+          example: "beginner"
+        code:
+          type: string
+          description: そのレベルの正解コード
+          example: "4892"
+        title:
+          type: string
+          description: レベル表示名
+          example: "初級"
+
+    GameSession:
+      type: object
+      description: ゲームセッション中にメモリ上で保持する進行状態
+      properties:
+        currentLevel:
+          $ref: '#/components/schemas/LevelConfig'
+        currentViewIndex:
+          type: integer
+          description: 現在の視点インデックス (0始まり)
+          minimum: 0
+        isCleared:
+          type: boolean
+          description: クリア済みかどうか
+          default: false
+
+    ValidationResult:
+      type: object
+      description: バリデーション処理の結果
+      properties:
+        valid:
+          type: boolean
+        message:
+          type: string
+          description: エラーメッセージ（valid=false 時のみ）
+
+x-notes:
+  persistence: "localStorage は使用しない。全データはゲームセッション中のメモリで管理。"
+  storage-keys: "なし"
