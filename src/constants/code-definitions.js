@@ -3,19 +3,9 @@ import { LEVEL_ADVANCED } from '../levels/advanced-level.js';
 import { LEVEL_ELITE } from '../levels/elite-level.js';
 
 /**
- * CodeDefinitions クラス
+ * 難易度コード（EASY/NORMAL/HARD）と各レベルデータの対応表を定義し、
+ * 指定コードからレベル定義を返すクラス。
  * @author Takumi Harada
- * @date 2026-03-31
- */
-/**
- * CodeDefinitions クラス
- * 目的: アプリ全体で再利用する定数・コード定義を管理する
- * 入力: なし（静的参照）
- * 処理: 定数を用途別に定義し参照しやすく整理する
- * 出力: 画面制御や判定で使用する不変値
- * 補足: 変更時は参照側ロジックの影響を確認する
- * @author Takumi Harada
- * @date 2026-04-01
  */
 /**
  * 定数概要:

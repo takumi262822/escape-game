@@ -7,25 +7,9 @@ import { UIComponents } from '../ui/components.js';
 import { StyleManager } from '../styles/style-manager.js';
 
 /**
- * EscapeGameController クラス
+ * 脱出ゲームの進行全体を制御するクラス。
+ * 難易度選択・部屋移動・謎解き判定・クリア演出を統括する。
  * @author Takumi Harada
- * @date 2026-03-31
- */
-/**
- * EscapeGameController クラス
- * 目的: アプリ/ゲームの進行制御を担当する
- * 入力: 初期データ・現在状態・ユーザー操作
- * 処理: 初期化・分岐・状態更新を実行する
- * 出力: 進行更新された画面状態
- * 補足: 各下位クラスの責務を束ねる
- * @author Takumi Harada
- * @date 2026-04-01
- */
-/**
- * 処理概要:
- * - 初期化処理: 難易度選択、移動ボタン、入力ダイアログ、所持品UIのイベントを登録する
- * - 進行処理: 部屋移動、視点回転、謎解き判定、アイテム取得、メッセージ更新を管理する
- * - 出力処理: 現在の部屋表示、ナレーション、クリア演出をDOMへ反映する
  */
 export class EscapeGameController {
     constructor() {

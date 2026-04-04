@@ -1,23 +1,6 @@
 /**
- * UIComponents クラス（共通部品クラス）
+ * 視点中の調査対象やインベントリ表示に使う DOM 部品を生成・更新する共通 UI クラス。
  * @author Takumi Harada
- * @date 2026-03-31
- */
-/**
- * UIComponents クラス
- * 目的: UI部品の生成・更新を担当する
- * 入力: 表示データ・DOM要素・操作イベント
- * 処理: 画面要素を生成/更新し必要なイベントを接続する
- * 出力: 更新されたUI表示
- * 補足: ビジネスロジックは別クラスに分離する
- * @author Takumi Harada
- * @date 2026-04-01
- */
-/**
- * 処理概要:
- * - 生成処理: 視点ごとの調査対象やインベントリ表示に使うDOM部品を組み立てる
- * - 更新処理: コンテナ差し替えや所持品スロット取得などUI操作を共通化する
- * - 出力処理: EscapeGameController から呼び出せる再利用部品を返却する
  */
 export class UIComponents {
     static createPropElement(viewData, state, onAction) {
