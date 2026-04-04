@@ -98,25 +98,29 @@
 |public
 |現在 room と view に対応するオブジェクト一覧を UIComponents に渡して描画する
 
-|handleInteraction(objectId)
+|getItem(key, icon)
 |public
-|アクティブアイテムと対象オブジェクトの組み合わせを判定。条件成立時はフラグ更新・アイテム消費・ナレーター更新を行う
+|key が inventory に未追加の場合のみ空きスロットを探してアイコンを配置し、state.inventory に key を追加する
 
 |handleSlot(slot)
 |public
-|インベントリスロットのクリック処理。activeItem に選択アイテムコードを設定する
+|スロットの data-key を取得し、既に activeItem と一致する場合は inspect() を呼ぶ。そうでなければ選択状態に切り替えて activeItem を更新する
+
+|inspect(key)
+|public
+|GameConstants.ITEM_HINTS[key] の説明文を say() に渡す。対応するヒントがない場合は固定文を表示する
 
 |unlock()
 |public
-|ダイヤル入力値を現在 room の code と照合。一致時はドアを開き changeRoom() を呼ぶ。不一致時は ERROR_MS 間エラー演出を表示する
+|ダイヤル入力値を現在 room の code と照合する。一致時は goalOpen/open フラグを立て toggleModal(false) 後に render()。不一致時は ERROR_MS 間 input-error スタイルを付与する
 
-|toggleModal(show)
+|toggleModal(visible)
 |public
-|ダイヤル入力モーダルの表示・非表示を切り替える
+|引数が true の場合は is-active を付与してダイヤル入力 input にフォーカス。false の場合は is-active を除去する
 
-|checkClear()
+|clear()
 |public
-|state.flags を元にクリア条件を判定。成立時は CLEAR_MESSAGES からメッセージを取得してクリア演出を行い、RELOAD_MS 後にタイトルへ戻る
+|CLEAR_MESSAGES[level.id] をクリア画面に表示して is-active を付与する。RELOAD_MS 後に is-active を取り消し toTop() を呼ぶ
 
 |toTop()
 |public
