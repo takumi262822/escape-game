@@ -20,6 +20,7 @@
 
 ^.^|{counter:変更履歴} |1.00 |Takumi Harada |2026/3/31 ^.^|- |新規作成
 ^.^|{counter:変更履歴} |1.01 |Takumi Harada |2026/4/5 <.^|全体 <.^|ファイル名変更・書式統一（格納先・説明・変更履歴）
+^.^|{counter:変更履歴} |1.02 |Takumi Harada |2026/4/5 <.^|全体 <.^|引数と戻り値を入力項目・出力項目の表に分割
 |===
 
 == 概要
@@ -44,12 +45,20 @@ Map オブジェクトを用いた変換テーブル方式で実装する。
 
 ==== sanitize(value)
 
+.入力項目
 [cols="2,2,4", options="header"]
 |===
-^.^|項目 ^.^|型 <.^|内容
+^.^|引数 ^.^|型 <.^|内容
 
-<.^|引数 `value` |any |任意の値。`null` / `undefined` は空文字に変換してから処理する。
-<.^|戻り値 |string |HTML 特殊文字をエンティティに置換した文字列
+<.^|`value` |any |任意の値。`null` / `undefined` は空文字に変換してから処理する。
+|===
+
+.出力項目
+[cols="2,4", options="header"]
+|===
+^.^|型 <.^|内容
+
+|string |HTML 特殊文字をエンティティに置換した文字列
 |===
 
 .変換表（Map による対応）
@@ -79,12 +88,20 @@ Map オブジェクトを用いた変換テーブル方式で実装する。
 
 ==== isValidLevel(level)
 
+.入力項目
 [cols="2,2,4", options="header"]
 |===
-^.^|項目 ^.^|型 <.^|内容
+^.^|引数 ^.^|型 <.^|内容
 
-<.^|引数 `level` |any |検査対象のレベルオブジェクト
-<.^|戻り値 |boolean |以下の全条件を満たせば `true`
+<.^|`level` |any |検査対象のレベルオブジェクト
+|===
+
+.出力項目
+[cols="2,4", options="header"]
+|===
+^.^|型 <.^|内容
+
+|boolean |以下の全条件を満たせば `true`
 |===
 
 .判定条件
@@ -97,13 +114,21 @@ Map オブジェクトを用いた変換テーブル方式で実装する。
 
 ==== isValidViewIndex(index, viewsLength)
 
+.入力項目
 [cols="2,2,4", options="header"]
 |===
-^.^|項目 ^.^|型 <.^|内容
+^.^|引数 ^.^|型 <.^|内容
 
-<.^|引数 `index` |number |検査対象のビューインデックス
-<.^|引数 `viewsLength` |number |表示可能ビューの合計件数
-<.^|戻り値 |boolean |以下の全条件を満たせば `true`
+<.^|`index` |number |検査対象のビューインデックス
+<.^|`viewsLength` |number |表示可能ビューの合計件数
+|===
+
+.出力項目
+[cols="2,4", options="header"]
+|===
+^.^|型 <.^|内容
+
+|boolean |以下の全条件を満たせば `true`
 |===
 
 .判定条件
@@ -115,12 +140,20 @@ Map オブジェクトを用いた変換テーブル方式で実装する。
 
 ==== isValidCodeInput(value)
 
+.入力項目
 [cols="2,2,4", options="header"]
 |===
-^.^|項目 ^.^|型 <.^|内容
+^.^|引数 ^.^|型 <.^|内容
 
-<.^|引数 `value` |any |検査対象の入力値
-<.^|戻り値 |boolean |以下の全条件を満たせば `true`
+<.^|`value` |any |検査対象の入力値
+|===
+
+.出力項目
+[cols="2,4", options="header"]
+|===
+^.^|型 <.^|内容
+
+|boolean |以下の全条件を満たせば `true`
 |===
 
 .判定条件
@@ -146,37 +179,50 @@ Map オブジェクトを用いた変換テーブル方式で実装する。
 
 ===== constructor(config)
 
+.入力項目
 [cols="2,2,4", options="header"]
 |===
-^.^|項目 ^.^|型 <.^|内容
+^.^|引数 ^.^|型 <.^|内容
 
-<.^|引数 `config` |object |`{ title: string, subtitle?: string }` 形式のオブジェクト
-<.^|戻り値 |- |タイトル・サブタイトルの初期値を受け取って内部保持する
+<.^|`config` |object |`{ title: string, subtitle?: string }` 形式のオブジェクト
 |===
+
+.出力項目
+なし
+
+NOTE: タイトル・サブタイトルの初期値を受け取って内部保持する。
 
 ---
 
 ===== render()
 
-[cols="2,2,4", options="header"]
-|===
-^.^|項目 ^.^|型 <.^|内容
+.入力項目
+なし
 
-<.^|引数 |- |-
-<.^|戻り値 |HTMLElement |ヘッダー HTML を生成して返す
+.出力項目
+[cols="2,4", options="header"]
+|===
+^.^|型 <.^|内容
+
+|HTMLElement |ヘッダー HTML を生成して返す
 |===
 
 ---
 
 ===== attach(container)
 
+.入力項目
 [cols="2,2,4", options="header"]
 |===
-^.^|項目 ^.^|型 <.^|内容
+^.^|引数 ^.^|型 <.^|内容
 
-<.^|引数 `container` |HTMLElement |ヘッダーを挿入する親要素
-<.^|戻り値 |- |`render()` で生成した要素を指定コンテナに挿入する
+<.^|`container` |HTMLElement |ヘッダーを挿入する親要素
 |===
+
+.出力項目
+なし
+
+NOTE: `render()` で生成した要素を指定コンテナに挿入する。
 
 ---
 
