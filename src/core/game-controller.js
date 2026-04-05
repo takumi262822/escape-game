@@ -92,6 +92,7 @@ export class EscapeGameController {
 
     // --- 現在部屋内の視点を切り替える ---
     move(dir) {
+        // VIEWS.length で割ることで周回ループ（左端から右端、右端から左端に環状につながる）
         this.state.view = (this.state.view + dir + GameConstants.VIEWS.length) % GameConstants.VIEWS.length;
         this.render();
     }
@@ -128,9 +129,9 @@ export class EscapeGameController {
 
     // --- アイテムをインベントリに追加し、スロットにアイコンを表示 ---
     getItem(key, icon) {
-        if (this.state.inventory.has(key)) return;
+        if (this.state.inventory.has(key)) return; // 同じアイテムを2度取れない
         const slot = UIComponents.getEmptySlot();
-        if (!slot) return;
+        if (!slot) return; // インベントリスロットが全埋まりのときはスキップ
 
         this.state.inventory.add(key);
         slot.textContent = icon;
@@ -160,7 +161,7 @@ export class EscapeGameController {
         this.say(`【調査】: ${GameConstants.ITEM_HINTS[key] || '特に変わったところはない。'}`);
     }
 
-    // --- モーダルのコードと安全に遊冒コードを照合---
+    // --- モーダルのコードと安全に過冷コードを照合 ---
     unlock() {
         const code = this.dom.input.value.trim();
         if (!Validator.isValidCodeInput(code)) {
@@ -170,13 +171,14 @@ export class EscapeGameController {
 
         if (code === this.state.level.code) {
             this.state.flags.goalOpen = true;
-            this.state.flags.open = true;
+            this.state.flags.open     = true;
             this.toggleModal(false);
             this.say('ロック解除！');
             this.render();
             return;
         }
 
+        // 不正解答は flash アニメでフィードバック（ERROR_MS ms 後にクラスを外す）
         StyleManager.addClass(this.dom.input, 'input-error');
         setTimeout(() => StyleManager.removeClass(this.dom.input, 'input-error'), GameConstants.ERROR_MS);
     }
