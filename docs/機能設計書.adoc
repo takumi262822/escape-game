@@ -1,0 +1,160 @@
+= 機能設計書
+:project: 脱出ゲーム
+:author: Takumi Harada
+:revdate: 2026-04-05
+:doctype: article
+:toc:
+:toc-title: 目次
+:sectnums:
+
+== 概要
+
+本書はプロジェクト「{project}」の主要クラス・メソッド・分岐ロジックを記述した技術設計書です。
+
+---
+
+== モジュール構成
+
+[cols="2,4", options="header"]
+|===
+|ファイルパス
+|担当責務
+
+|src/core/game-controller.js
+|ゲーム進行全般（難易度選択・部屋移動・謎解き判定・クリア演出）
+
+|src/core/main.js
+|エントリーポイント。EscapeGameController をインスタンス化して起動
+
+|src/levels/beginner-level.js
+|初級ステージ定義（部屋・オブジェクト・謎・ヒント）
+
+|src/levels/advanced-level.js
+|中級ステージ定義
+
+|src/levels/elite-level.js
+|上級ステージ定義
+
+|src/constants/code-definitions.js
+|難易度コードとレベルデータのマッピング・取得メソッド
+
+|src/constants/game-constants.js
+|方向定義・タイミング・クリアメッセージ・アイテムヒント
+
+|src/ui/components.js
+|部屋オブジェクト・インベントリ等の UI 描画
+
+|src/ui/header.js
+|現在部屋名表示ヘッダー
+
+|src/utils/validator.js
+|レベルデータの整合性検証
+
+|src/utils/xss.js
+|XSS 対策・エスケープ処理
+
+|src/styles/style-manager.js
+|CSS クラス操作ヘルパー（is-hidden 付け外し等）
+
+|===
+
+---
+
+== クラス設計
+
+=== EscapeGameController（game-controller.js）
+
+[cols="2,1,4", options="header"]
+|===
+|メソッド
+|可視性
+|処理内容
+
+|constructor()
+|public
+|resetState() でゲーム状態を初期化。DOM 参照取得・Header 生成・init() 呼び出し
+
+|resetState()
+|public
+|state オブジェクト（level/room/view/inventory/activeItem/flags）を初期値にリセット
+
+|init()
+|public
+|難易度ボタン・移動ボタン・ロックボタン等のイベントを一括登録
+
+|start(levelData)
+|public
+|Validator.isValidLevel() でデータ検証後、state を初期化してタイトル画面を隠し、ゲームを開始する
+
+|changeRoom(key)
+|public
+|state.room を変更し view を 0 にリセット。ナレーターに移動メッセージを表示し render() を呼ぶ
+
+|move(dir)
+|public
+|dir (+1 / -1) で VIEWS インデックスを更新し render() を呼ぶ。インデックスは 0〜3 でループする
+
+|render()
+|public
+|現在 room と view に対応するオブジェクト一覧を UIComponents に渡して描画する
+
+|getItem(key, icon)
+|public
+|key が inventory に未追加の場合のみ空きスロットを探してアイコンを配置し、state.inventory に key を追加する
+
+|handleSlot(slot)
+|public
+|スロットの data-key を取得し、既に activeItem と一致する場合は inspect() を呼ぶ。そうでなければ選択状態に切り替えて activeItem を更新する
+
+|inspect(key)
+|public
+|GameConstants.ITEM_HINTS[key] の説明文を say() に渡す。対応するヒントがない場合は固定文を表示する
+
+|unlock()
+|public
+|ダイヤル入力値を現在 room の code と照合する。一致時は goalOpen/open フラグを立て toggleModal(false) 後に render()。不一致時は ERROR_MS 間 input-error スタイルを付与する
+
+|toggleModal(visible)
+|public
+|引数が true の場合は is-active を付与してダイヤル入力 input にフォーカス。false の場合は is-active を除去する
+
+|clear()
+|public
+|CLEAR_MESSAGES[level.id] をクリア画面に表示して is-active を付与する。RELOAD_MS 後に is-active を取り消し toTop() を呼ぶ
+
+|toTop()
+|public
+|タイトル画面に戻り resetState() を実行する
+
+|say(msg)
+|public
+|ナレーター要素にメッセージをセットする
+
+|===
+
+---
+
+== ゲーム進行フロー
+
+[source]
+----
+1. ページ読み込み → new EscapeGameController()
+2. 難易度ボタン押下 → start(levelData)
+3. 部屋レンダリング → render()
+4. ユーザー操作
+   a. 移動ボタン → move(±1) → render()
+   b. オブジェクトクリック → handleInteraction()
+   c. アイテムスロット → handleSlot()
+   d. ダイヤルボタン → toggleModal(true)
+   e. 解錠ボタン → unlock() → 正解なら changeRoom()
+5. クリア条件成立 → checkClear() → クリア演出
+6. RELOAD_MS 後 → toTop()
+----
+
+---
+
+== セキュリティ考慮事項
+
+* XSS: ナレーター・クリアメッセージへの動的テキスト出力は textContent を使用
+* 入力検証: ダイヤル入力値は Validator で検証してから code 比較する
+* ページ遷移: アンカーの href 遷移は行わず、ゲーム内状態遷移のみで完結する
