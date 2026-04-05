@@ -1,3 +1,8 @@
+﻿/**
+ * Application entry point and initialization class
+ * @author Takumi Harada
+ * @date 2026/3/31
+ */
 import { EscapeGameController } from './game-controller.js';
 
 /**

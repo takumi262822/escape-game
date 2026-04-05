@@ -70,3 +70,20 @@ body { background: var(--dark-bg); margin: 0; display: flex; justify-content: ce
     font-size: 0.55em; color: rgba(197, 160, 89, 0.55); letter-spacing: 4px;
     pointer-events: none; font-family: 'Cinzel', serif; z-index: 10001;
 }
+
+/* --- スマホ対応 (max-width: 600px) --- */
+@media (max-width: 600px) {
+    #object-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .room-label {
+        font-size: 0.8em;
+    }
+    .choice-btn {
+        font-size: 0.8em;
+        padding: 8px 12px;
+    }
+    .narrator-box {
+        font-size: 0.85em;
+    }
+}

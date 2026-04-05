@@ -1,7 +1,8 @@
-/**
+﻿/**
  * HTML 特殊文字を安全なエンティティに変換し、XSS を防ぐサニタイズクラス。
  * DOM 反映前に必ず経由する。
  * @author Takumi Harada
+ * @date 2026/3/31
  */
 export class XSSProtection {
     static sanitize(value) {

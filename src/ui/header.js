@@ -1,3 +1,8 @@
+﻿/**
+ * Page common header rendering class
+ * @author Takumi Harada
+ * @date 2026/3/31
+ */
 import { GameConstants } from '../constants/game-constants.js';
 
 /**

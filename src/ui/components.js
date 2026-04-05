@@ -1,6 +1,7 @@
-/**
+﻿/**
  * 視点中の調査対象やインベントリ表示に使う DOM 部品を生成・更新する共通 UI クラス。
  * @author Takumi Harada
+ * @date 2026/3/31
  */
 export class UIComponents {
     static createPropElement(viewData, state, onAction) {

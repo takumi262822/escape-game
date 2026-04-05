@@ -1,3 +1,8 @@
+﻿/**
+ * Code and name mapping definitions
+ * @author Takumi Harada
+ * @date 2026/3/31
+ */
 import { LEVEL_BEGINNER } from '../levels/beginner-level.js';
 import { LEVEL_ADVANCED } from '../levels/advanced-level.js';
 import { LEVEL_ELITE } from '../levels/elite-level.js';

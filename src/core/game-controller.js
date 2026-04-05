@@ -1,8 +1,14 @@
+﻿/**
+ * Game progress (puzzle answer / flag management) controller class
+ * @author Takumi Harada
+ * @date 2026/3/31
+ */
 import { GameConstants } from '../constants/game-constants.js';
 import { CodeDefinitions } from '../constants/code-definitions.js';
 import { Validator } from '../utils/validator.js';
 import { XSSProtection } from '../utils/xss.js';
 import { Header } from '../ui/header.js';
+import { Footer } from '../ui/footer.js';
 import { UIComponents } from '../ui/components.js';
 import { StyleManager } from '../styles/style-manager.js';
 
@@ -12,6 +18,7 @@ import { StyleManager } from '../styles/style-manager.js';
  * @author Takumi Harada
  */
 export class EscapeGameController {
+    // --- DOMノード参照・状態変数の初期化 ---
     constructor() {
         this.resetState();
         this.dom = {
@@ -25,9 +32,11 @@ export class EscapeGameController {
             clearMsg: document.getElementById('clear-message')
         };
         this.header = new Header(this.dom.label);
+        new Footer().setYear();
         this.init();
     }
 
+    // --- ゲーム状態を初期値にリセットする ---
     resetState() {
         this.state = {
             level: null,
@@ -39,6 +48,7 @@ export class EscapeGameController {
         };
     }
 
+    // --- 難易度選択・方向ボタンのイベントバインド ---
     init() {
         document.querySelectorAll('.diff-btn').forEach((btn) => {
             btn.addEventListener('click', () => {
@@ -58,6 +68,7 @@ export class EscapeGameController {
         });
     }
 
+    // --- 選択した難易度データでゲームを開始する ---
     start(levelData) {
         if (!Validator.isValidLevel(levelData)) {
             this.say('準備中の難易度です。');
@@ -71,6 +82,7 @@ export class EscapeGameController {
         this.render();
     }
 
+    // --- 指定の部屋へ移動し、画面を再描画 ---
     changeRoom(key) {
         this.state.room = key;
         this.state.view = 0;
@@ -78,15 +90,18 @@ export class EscapeGameController {
         this.render();
     }
 
+    // --- 現在部屋内の視点を切り替える ---
     move(dir) {
         this.state.view = (this.state.view + dir + GameConstants.VIEWS.length) % GameConstants.VIEWS.length;
         this.render();
     }
 
+    // --- ナレーターエリアにウィンドウテキストを表示 ---
     say(text) {
         this.dom.narrator.textContent = XSSProtection.sanitize(text);
     }
 
+    // --- コード入力モーダルの表示 / 非表示切り替え ---
     toggleModal(visible) {
         StyleManager.toggleClass(this.dom.modal, 'is-active', visible);
         if (visible) {
@@ -94,8 +109,8 @@ export class EscapeGameController {
         }
     }
 
+    // --- 現在の部屋・視点に合わせたオブジェクトを描画 ---
     render() {
-        const level = this.state.level;
         if (!level) return;
 
         const currentRoom = level.rooms ? level.rooms[this.state.room] : null;
@@ -111,6 +126,7 @@ export class EscapeGameController {
         UIComponents.clearAndAppend(this.dom.container, prop);
     }
 
+    // --- アイテムをインベントリに追加し、スロットにアイコンを表示 ---
     getItem(key, icon) {
         if (this.state.inventory.has(key)) return;
         const slot = UIComponents.getEmptySlot();
@@ -123,6 +139,7 @@ export class EscapeGameController {
         this.render();
     }
 
+    // --- インベントリスロットのクリック：選択・調査切り替え ---
     handleSlot(slot) {
         const key = slot.dataset.key;
         if (!key) return;
@@ -138,10 +155,12 @@ export class EscapeGameController {
         this.render();
     }
 
+    // --- アイテムのヒントをナレーターに表示 ---
     inspect(key) {
         this.say(`【調査】: ${GameConstants.ITEM_HINTS[key] || '特に変わったところはない。'}`);
     }
 
+    // --- モーダルのコードと安全に遊冒コードを照合---
     unlock() {
         const code = this.dom.input.value.trim();
         if (!Validator.isValidCodeInput(code)) {
@@ -162,6 +181,7 @@ export class EscapeGameController {
         setTimeout(() => StyleManager.removeClass(this.dom.input, 'input-error'), GameConstants.ERROR_MS);
     }
 
+    // --- ゲームクリアエフェクトを表示し、トップに戻る ---
     clear() {
         this.dom.clearMsg.textContent = GameConstants.CLEAR_MESSAGES[this.state.level.id] || '';
         StyleManager.addClass(this.dom.clear, 'is-active');
@@ -171,6 +191,7 @@ export class EscapeGameController {
         }, GameConstants.RELOAD_MS);
     }
 
+    // --- ティトル画面に戻り、スロット・状態をリセット ---
     toTop() {
         StyleManager.removeClass(this.dom.title, 'is-hidden');
         UIComponents.resetSlots();

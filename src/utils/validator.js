@@ -1,6 +1,7 @@
-/**
+﻿/**
  * レベルデータ．視点インデックス．暗証番号入力の形式チェックを行うバリデーションクラス。
  * @author Takumi Harada
+ * @date 2026/3/31
  */
 export class Validator {
     static isValidLevel(level) {
