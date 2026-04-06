@@ -70,6 +70,7 @@ export class EscapeGameController {
 
     // --- 選択した難易度データでゲームを開始する ---
     start(levelData) {
+        // レベルデータが無効な場合はエラーメッセージを表示して処理を中断する
         if (!Validator.isValidLevel(levelData)) {
             this.say('準備中の難易度です。');
             return;
@@ -105,14 +106,14 @@ export class EscapeGameController {
     // --- コード入力モーダルの表示 / 非表示切り替え ---
     toggleModal(visible) {
         StyleManager.toggleClass(this.dom.modal, 'is-active', visible);
+        // モーダルを表示する場合は入力フィールドにフォーカスを当てる
         if (visible) {
             this.dom.input.focus();
         }
     }
 
     // --- 現在の部屋・視点に合わせたオブジェクトを描画 ---
-    render() {
-        if (!level) return;
+    render() {        // ガムが開始値時はレベルデータが未設定なので描画処理をスキップする        if (!level) return;
 
         const currentRoom = level.rooms ? level.rooms[this.state.room] : null;
         const viewData = currentRoom ? currentRoom.views[this.state.view] : level.views[this.state.view];
@@ -121,6 +122,7 @@ export class EscapeGameController {
         this.header.update(roomName, this.state.view);
 
         const prop = UIComponents.createPropElement(viewData, this.state, () => {
+            // action プロパティが優先。なければ onAction を実行する
             if (viewData.action) viewData.action(this);
             else if (viewData.onAction) viewData.onAction(this);
         });
@@ -143,8 +145,10 @@ export class EscapeGameController {
     // --- インベントリスロットのクリック：選択・調査切り替え ---
     handleSlot(slot) {
         const key = slot.dataset.key;
+        // スロットにアイテムキーが設定されていない場合は処理をスキップする
         if (!key) return;
 
+        // クリックされたスロットが既にアクティブなアイテムと同一の場合は調査処理に進む
         if (this.state.activeItem === key) {
             this.inspect(key);
             return;
@@ -164,11 +168,13 @@ export class EscapeGameController {
     // --- モーダルのコードと安全に過冷コードを照合 ---
     unlock() {
         const code = this.dom.input.value.trim();
+        // コード入力が無効な場合はエラーメッセージを表示して中断する
         if (!Validator.isValidCodeInput(code)) {
             this.say('コードを入力してください。');
             return;
         }
 
+        // 入力コードが正解コードと一致した場合はゴール解放フラグを立てる
         if (code === this.state.level.code) {
             this.state.flags.goalOpen = true;
             this.state.flags.open     = true;

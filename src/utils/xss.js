@@ -6,6 +6,7 @@
  */
 export class XSSProtection {
     static sanitize(value) {
+        // 文字列型以外の値が渡された場合はそのまま返す
         if (typeof value !== 'string') {
             return value;
         }

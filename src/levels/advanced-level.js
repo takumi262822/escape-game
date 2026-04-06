@@ -20,7 +20,9 @@ export const LEVEL_ADVANCED = {
                 {
                     render: (s) => `<div style="font-size:50px;">${s.flags.deskOpen ? '📖' : '🗄️'}</div>`,
                     action: (g) => {
+                        // デスクが既に開いている場合は中のコードを表示する
                         if (g.state.flags.deskOpen) return g.say('中に「931」と書かれた紙がある。');
+                        // 手に油を持っている場合は錆びたデスクを開けてコードを入手する
                         if (g.state.activeItem === 'oil') {
                             g.state.flags.deskOpen = true;
                             g.say('油を差すと開いた！「脱出コード：931」');
@@ -41,8 +43,11 @@ export const LEVEL_ADVANCED = {
                 {
                     render: (s) => `<div style="font-size:60px;">${s.flags.powerOn ? '⚡' : '💥'}</div>`,
                     action: (g) => {
+                        // 電源が既に復旧している場合は通電済みの旨を伝える
                         if (g.state.flags.powerOn) return g.say('電気は既に復旧している。');
+                        // 手に絶縁テープを持っている場合は配線補修を試みる
                         if (g.state.activeItem === 'tape') {
+                            // ヒューズも持っている場合はテープ補修＋ヒューズ交換で通電成功する
                             if (g.state.inventory.has('fuse')) {
                                 g.state.flags.powerOn = true;
                                 g.say('テープで補修しヒューズを交換した。通電成功！');
@@ -65,9 +70,11 @@ export const LEVEL_ADVANCED = {
                 {
                     render: (s) => (s.inventory.has('tape') && s.inventory.has('bar')) ? '<div>空の段ボール</div>' : '<div>📦 段ボール</div>',
                     action: (g) => {
+                        // テープがまだインベントリにない場合は段ボールからテープを入手する
                         if (!g.state.inventory.has('tape')) {
                             g.getItem('tape', '巻');
                             g.say('段ボールから絶縁テープを見つけた。');
+                        // テープはあるがバールがない場合は底からバールを入手する
                         } else if (!g.state.inventory.has('bar')) {
                             g.getItem('bar', '🔨');
                             g.say('底にバールが隠されていた！');
@@ -79,7 +86,9 @@ export const LEVEL_ADVANCED = {
                 {
                     render: (s) => `<div style="font-size:60px;">${s.flags.powerOn ? (s.flags.goalOpen ? '🔓' : '🔒') : '🌑'}</div>`,
                     action: (g) => {
+                        // 電源未復旧の場合は暗くて操作できない旨を伝える
                         if (!g.state.flags.powerOn) return g.say('暗くて操作できない。まずは電気を通せ。');
+                        // 金庫が既に開いている場合は解錠済みの旨を伝える
                         if (g.state.flags.goalOpen) return g.say('金庫は既に開いている。');
                         g.toggleModal(true);
                     }
@@ -87,7 +96,9 @@ export const LEVEL_ADVANCED = {
                 {
                     render: (s) => `<div style="font-size:50px;">${s.flags.floorOpen ? '🕳️' : '🪵'}</div>`,
                     action: (g) => {
+                        // 床下が既に開いている場合はもう何もない旨を伝える
                         if (g.state.flags.floorOpen) return g.say('床下にはもう何もない。');
+                        // 手にバールを持っている場合は床板をこじ開けてヒューズを入手する
                         if (g.state.activeItem === 'bar') {
                             g.state.flags.floorOpen = true;
                             g.getItem('fuse', '🔋');
