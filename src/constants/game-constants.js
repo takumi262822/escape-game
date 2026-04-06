@@ -10,7 +10,7 @@
  * - CLEAR_MESSAGES と ITEM_HINTS はクリア文言とアイテム説明を管理する
  */
 export class GameConstants {
-    static VIEWS = ['NORTH', 'EAST', 'SOUTH', 'WEST'];
+    static VIEWS = ['北', '東', '南', '西'];
     static ERROR_MS = 500;
     static RELOAD_MS = 5000;
 

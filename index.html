@@ -15,24 +15,24 @@
                 <h1 class="luxe-title">THE LUXE ROOM</h1>
                 <p class="luxe-subtitle">~ 三つの記憶 ~</p>
                 <div class="difficulty-menu">
-                    <button class="diff-btn" data-level="EASY">BEGINNER (初級)</button>
-                    <button class="diff-btn" data-level="NORMAL">ADVANCED (中級)</button>
-                    <button class="diff-btn" data-level="HARD">ELITE (上級)</button>
+                    <button class="diff-btn" data-level="EASY">初級</button>
+                    <button class="diff-btn" data-level="NORMAL">中級</button>
+                    <button class="diff-btn" data-level="HARD">上級</button>
                 </div>
             </div>
         </div>
 
         <!-- メインビュー -->
         <div id="viewport">
-            <div id="room-label">NORTH VIEW</div>
-            <button id="btn-menu" class="mini-btn">MENU</button>
+            <div id="room-label">北の方角</div>
+            <button id="btn-menu" class="mini-btn">メニュー</button>
             <div id="object-container"></div>
             <div id="narrator">運命を選択せよ。</div>
             
             <!-- ⑤ クリア演出用オーバーレイ -->
             <div id="clear-overlay">
                 <div class="clear-content">
-                    <div class="clear-text">ROOM ESCAPED</div>
+                    <div class="clear-text">脱出成功！</div>
                     <div id="clear-message"></div>
                 </div>
             </div>
@@ -47,8 +47,8 @@
                 <div class="item-slot" id="slot-4"></div>
             </div>
             <div class="nav-group">
-                <button id="btn-left" class="nav-arrow">LEFT</button>
-                <button id="btn-right" class="nav-arrow">RIGHT</button>
+                <button id="btn-left" class="nav-arrow">←</button>
+                <button id="btn-right" class="nav-arrow">→</button>
             </div>
         </div>
     </div>
@@ -56,11 +56,11 @@
     <!-- 暗号入力モーダル -->
     <div id="dial-overlay" class="overlay">
         <div class="dial-box">
-            <h4>DIGITAL LOCK</h4>
+            <h4>デジタルロック</h4>
             <input type="text" id="code-input" maxlength="4" placeholder="****" autocomplete="off">
             <div class="modal-btns">
-                <button id="code-unlock">UNLOCK</button>
-                <button id="code-close">CLOSE</button>
+                <button id="code-unlock">解錠</button>
+                <button id="code-close">閉じる</button>
             </div>
         </div>
     </div>
