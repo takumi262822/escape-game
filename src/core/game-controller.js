@@ -113,10 +113,12 @@ export class EscapeGameController {
     }
 
     // --- 現在の部屋・視点に合わせたオブジェクトを描画 ---
-    render() {        // ガムが開始値時はレベルデータが未設定なので描画処理をスキップする        if (!level) return;
+    render() {
+        // ゲーム開始前はレベルデータが未設定なので描画処理をスキップする
+        if (!this.state.level) return;
 
-        const currentRoom = level.rooms ? level.rooms[this.state.room] : null;
-        const viewData = currentRoom ? currentRoom.views[this.state.view] : level.views[this.state.view];
+        const currentRoom = this.state.level.rooms ? this.state.level.rooms[this.state.room] : null;
+        const viewData = currentRoom ? currentRoom.views[this.state.view] : this.state.level.views[this.state.view];
         const roomName = currentRoom ? currentRoom.name : 'ROOM';
 
         this.header.update(roomName, this.state.view);
